@@ -1,0 +1,80 @@
+// according to the rule we choose, generate consecutive generations
+
+package Cell;
+
+import java.util.ArrayList;
+
+public class CAGenerationSet {	
+		
+	CAGeneration caGeneration=new CAGeneration();		
+	CARule r=new CARule();	
+	
+	ArrayList<CAGeneration> CellSet= new ArrayList<CAGeneration>();			
+	int [] nextgen= new int[caGeneration.cell.length];	
+	int n=10,row=1;	
+
+	public CAGenerationSet(int n) {			
+		CellSet.add(caGeneration);	
+		this.n=n;
+	}
+	
+	public CAGeneration get (int index) {
+		 return CellSet.get(index);
+	 }
+	 
+	public int size ()	 {
+		  return CellSet.size();
+	 }				
+	
+	public void generate30(){	
+		while(row<n){			
+		for (int i = 1; i <nextgen.length-1; i++) {
+			  int left   = caGeneration.cell[i-1];
+			  int me     = caGeneration.cell[i];
+			  int right  = caGeneration.cell[i+1];	     
+			  nextgen[i] = r.rule30(left, me, right);				
+		}		
+		caGeneration=new CAGeneration();
+		for(int i=0;i<nextgen.length;i++){
+			caGeneration.cell[i]=nextgen[i];
+		}	
+		CellSet.add(caGeneration);		
+		row++;
+		}
+	}	
+	
+	public void generate60(){		
+		while(row<n){			
+			for (int i = 1; i <nextgen.length-1; i++) {
+				  int left   = caGeneration.cell[i-1];
+				  int me     = caGeneration.cell[i];
+				  int right  = caGeneration.cell[i+1];	     
+				  nextgen[i] = r.rule60(left, me, right);				
+			}		
+			caGeneration=new CAGeneration();
+			for(int i=0;i<nextgen.length;i++){
+				caGeneration.cell[i]=nextgen[i];
+			}	
+			CellSet.add(caGeneration);		
+			row++;
+			}
+	}
+	
+	public void generate90(){		
+		while(row<n){			
+		for (int i = 1; i <nextgen.length-1; i++) {
+			  int left   = caGeneration.cell[i-1];
+			  int me     = caGeneration.cell[i];
+			  int right  = caGeneration.cell[i+1];	     
+			  nextgen[i] = r.rule90(left, me, right);				
+		}		
+		caGeneration=new CAGeneration();
+		for(int i=0;i<nextgen.length;i++){
+			caGeneration.cell[i]=nextgen[i];
+		}	
+		CellSet.add(caGeneration);		
+		row++;
+		}
+	}
+	
+}
