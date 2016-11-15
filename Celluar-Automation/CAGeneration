@@ -1,0 +1,14 @@
+// each generation have an array of cell
+
+package Cell;
+
+public class CAGeneration {
+	
+	public int [] cell;	
+	
+	public CAGeneration() {		
+		cell=new int [64];	
+		cell[(cell.length-1)/2]=1;		
+	}
+
+}
