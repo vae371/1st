@@ -1,0 +1,29 @@
+// three rules here to choose
+
+package Cell;
+
+public class CARule {
+	
+	public int [] rule30={0,1,1,0,1,0,1,0};
+	public int [] rule60={0,0,1,1,1,1,0,0};
+	public int [] rule90={0,1,0,1,1,0,1,0};		
+	
+	public int rule30 (int a,int b,int c)	{		
+		String s = "" + a + b + c;
+	    int index = Integer.parseInt(s,2);
+	    return rule30[index];
+	}
+	
+	public int rule60 (int a,int b,int c)	{
+		String s = "" + a + b + c;
+	    int index = Integer.parseInt(s,2);
+	    return rule60[index];
+	}
+	
+	public int rule90 (int a,int b,int c)	{
+		String s = "" + a + b + c;
+	    int index = Integer.parseInt(s,2);	   
+	    return rule90[index];
+	}			
+	
+}
