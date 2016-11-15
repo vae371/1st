@@ -1,0 +1,71 @@
+// Implements Runnable to start and stop and extends Canvas to paint the automation
+
+package Cell;
+
+import java.awt.Canvas;
+
+
+
+
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+
+ public class CACanvas extends Canvas implements Runnable{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	boolean stop=true;
+	CAGenerationSet CAset;	
+	int x=1;		
+
+	public CACanvas(CAGenerationSet CAset)	{			
+		this.CAset=CAset;			
+	}	
+	
+	void stop(){
+		stop=true;		
+	}
+	
+    public void paint(Graphics g)    {    	        
+    	if(!stop){
+	    	Graphics2D g2d=(Graphics2D) g;	    	
+	    	for(int j=0;j<x;j++){     			
+	    		for(int i=0;i<CAset.nextgen.length;i++)
+	    		{
+	    			if(CAset.get(j).cell[i]==0)
+	    				g2d.setColor(Color.white);	
+	    			else {
+	    			
+	    				g2d.setColor(new Color( (new Double(Math.random() * 128)).intValue() +
+	    						0,(new Double(Math.random() * 128)).intValue() + 
+	    						0,(new Double(Math.random() * 128)).intValue() + 0
+	    						));
+	    					    				
+	    			}
+	    			g2d.fillRect(20*i,20*j,15,15); 	
+	    		}   	
+	    	}  
+    	}
+    }
+
+	@Override
+	public void run() {
+		stop=false;
+		while(!stop){
+			
+			repaint();
+			if(x<CAset.size()){
+				x++;				
+			}
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {				
+				e.printStackTrace();
+			}
+		}		
+	}
+	
+}
