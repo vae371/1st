@@ -1,0 +1,125 @@
+// Build the framework, has the main method to launch
+
+package Cell;
+
+import java.awt.BorderLayout;
+
+
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+
+public  class JUIApp  {
+	 
+	private JScrollPane scrollPane=null;
+	private CACanvas caCanvas=null;	
+	private Thread thrd=null;	
+	private JFrame frame=null;	
+	private JPanel mainPanel = null;      
+	private JButton btn0=null;
+	private JButton btn1=null;
+	private JButton btn2=null;
+	private JComboBox<String> rulebox=null;	
+	private JTextField jtf=null;	
+	
+	boolean flag=true;
+	CAGenerationSet CAset=new CAGenerationSet(10);	
+	
+		
+	
+	public JUIApp() {
+		frame = new JFrame();		
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		
+		frame.setTitle("CA Show");
+		frame.setSize(1000,500);
+		frame.setResizable(true);
+		frame.setLayout(new BorderLayout());
+		frame.add(getMainPanel(),BorderLayout.NORTH);				
+		frame.setVisible(true);				
+	}
+
+	public JPanel getMainPanel(){
+		mainPanel=new JPanel();
+		mainPanel.setLayout(new FlowLayout());			
+		btn0=new JButton("Start");			
+		btn1=new JButton("Stop");	
+		btn2=new JButton("Reset");
+		mainPanel.add(btn0);
+		mainPanel.add(btn1);	
+		mainPanel.add(btn2);	
+		JLabel ruleLb1= new JLabel("Rule:");
+		mainPanel.add(ruleLb1);
+		rulebox=new JComboBox<String>();
+		rulebox.addItem("Rule 30");
+		rulebox.addItem("Rule 60");
+		rulebox.addItem("Rule 90");		
+		mainPanel.add(rulebox);		
+		JLabel ruleLb2= new JLabel("Generations to generate(default 10):");
+		mainPanel.add(ruleLb2);	
+		jtf = new JTextField(10);			
+		mainPanel.add(jtf);				
+		
+		btn0.addActionListener((ae) ->{	
+			
+			if(flag){
+				flag=false;
+				if(!jtf.getText().isEmpty()){
+					CAset=new CAGenerationSet(Integer.parseInt(jtf.getText()));
+				}
+				switch ((String)rulebox.getSelectedItem()){	
+				case "Rule 30": CAset.generate30(); break;
+				case "Rule 60": CAset.generate60(); break;
+				case "Rule 90": CAset.generate90(); break;			
+				}			
+				caCanvas=new CACanvas(CAset);	
+				caCanvas.setPreferredSize(new Dimension(1000,480));				
+				scrollPane=new JScrollPane(caCanvas,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, 
+						JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);					
+				frame.add(scrollPane,BorderLayout.CENTER);
+				frame.setVisible(true);	
+			}							
+			
+			thrd=new Thread(caCanvas);				
+			thrd.start();
+			caCanvas.stop=false;
+			frame.setVisible(true);				
+		});		
+		
+		btn1.addActionListener((ae) ->{
+			try{
+				caCanvas.stop();
+			}
+			catch(NullPointerException e){
+				
+			}
+				frame.setVisible(true);					
+		});
+		
+		btn2.addActionListener((ae) ->{		
+			frame.remove(caCanvas);	
+			frame.remove(scrollPane);				
+			flag=true;			
+			caCanvas=null;			
+		});
+		
+		return mainPanel;
+	}
+	 
+	
+	public static void main(String[] args) {
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				new JUIApp();		
+			}
+		});
+	}
+}
