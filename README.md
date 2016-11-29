@@ -1,2 +1,2 @@
-This program is manily to achieve things in this link using java:
+Find information about:
 http://mathworld.wolfram.com/CellularAutomaton.html
